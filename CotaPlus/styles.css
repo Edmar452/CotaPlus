@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* formatação padrão do fundo */
+body {
+  font-family: "Lobster Two", cursive;
+  margin: 0;
+  padding: 0;
+  background: url(img/imgfundo1.jpg) no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+}
+
+/* cor e opacidade em cima da imagem da tela */
+.fundo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* menu */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  width: 100%;
+  z-index: 999;
+}
+
+/* esconde checkbox */
+.menu-checkbox {
+  display: none;
+}
+
+.menu-checkbox:checked+.options-menu {
+  display: flex;
+}
+
+/* aba que abre */
+.options-menu {
+  display: none;
+  margin: 15px -20px;
+  flex-direction: column;
+  position: absolute;
+}
+
+/* texto menu */
+.options-menu a {
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0.37em;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  transition: 0.3s;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.options-menu a:hover {
+  background-color: rgba(64, 224, 208, 0.3);
+  border-radius: 2%;
+}
+
+.options-menu .logout {
+  position: fixed;
+  bottom: 0;
+  padding: 20px 30px;
+}
+
+.options-menu i {
+  color: white;
+
+}
+
+.options-menu a:hover {
+  transform: scale(1.05);
+  transition: 0.3s;
+}
+
+.search-bar i {
+  transition: 0.3s;
+  color: white;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.search-bar i:hover {
+  transform: scale(1.1);
+  transition: 0.3s;
+}

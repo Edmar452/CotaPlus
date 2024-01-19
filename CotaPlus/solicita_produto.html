@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://kit.fontawesome.com/f9e03bc8f7.js" crossorigin="anonymous"></script>
+  <style>
+    /* container de pesquisa */
+    .search-container {
+      position: absolute;
+      /* Adicione esta linha para tornar o formulário um ponto de referência */
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 650px;
+      height: 200px;
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0px 0px 50px rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 20px;
+      text-align: center;
+      margin: 0 auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+
+    /* texto grande */
+    .titulo {
+      font-size: 60px;
+      color: rgb(64, 187, 224);
+      font-weight: 600;
+      letter-spacing: -1px;
+      margin-top: 10px;
+      margin-bottom: 0px;
+      text-shadow: 0px 0px 50px rgba(33, 113, 171, 0.5);
+      transition: 0.3s;
+    }
+
+    .titulo:hover {
+      color: rgb(25, 156, 207);
+      transition: 0.3s;
+    }
+
+    .search-group input {
+      border: 1px solid rgba(105, 105, 105, 0.5);
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* campo de pesquisa */
+    .search-text {
+      width: 40%;
+      padding: 10px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-right: 10px;
+    }
+
+    /* seletor de unidades */
+    .search-options {
+      width: 16%;
+      padding: 12px;
+      font-size: 14px;
+      border: 1px solid rgba(105, 105, 105, 0.5);
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      margin-right: 10px;
+    }
+
+    /* campo para a quantidade de unidades */
+    .quantity-input {
+      width: 5%;
+      padding: 13px;
+      font-size: 14px;
+      border: 1px solid rgba(105, 105, 105, 0.5);
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      margin-right: 10px;
+    }
+
+    /* botão de pesquisa */
+    .search-button {
+      background-color: turquoise;
+      color: #fff;
+      border: none;
+      padding: 13px 20px;
+      cursor: pointer;
+      border-radius: 10px;
+      font-size: 18px;
+      box-shadow: inset -5px -5px 25px 3px #0c2397;
+      transition: 0.3s;
+      transform: .3s ease;
+      outline: none;
+    }
+
+    .search-button:hover {
+      background-color: rgb(52, 164, 216);
+      transition: 0.3s;
+    }
+
+    /* Carrinho de compras */
+    .cart {
+      font-family: 'Inter', sans-serif;
+      font-weight: bold;
+      font-size: 18px;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.3));
+    }
+
+    .cart-icon {
+      background-color: #007bff;
+      color: #fff;
+      font-size: 33px;
+      padding: 15px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      transition: background-color 0.3s ease-in-out;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 17px;
+    }
+
+    .cart-icon:hover {
+      background-color: #0056b3;
+    }
+
+    .cart-icon i {
+      margin-top: 4px;
+      margin-right: 2px;
+      filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.3));
+    }
+
+    .cart-content {
+      display: none;
+      width: 300px;
+      border: 1px solid rgba(105, 105, 105, 0.5);
+      background-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      z-index: 999;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      margin-top: 20px;
+      padding: 20px 0px;
+      text-align: center;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .cart-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 10px 20px;
+      border-bottom: 1px solid #ccc;
+      text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item-text {
+      font-size: 16px;
+      color: #333;
+    }
+
+    .cart-quantity {
+      margin-left: 5px;
+      font-size: 14px;
+      color: #777;
+    }
+
+    .cart-remove-button {
+      background-color: #ff0000;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: background-color 0.3s ease-in-out;
+      box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .cart-remove-button:hover {
+      background-color: #cc0000;
+    }
+
+    /* Botão "Finalizar Pedido" */
+    .checkout-button {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 10px 10px;
+      cursor: pointer;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-top: 15px;
+      width: 50%;
+      transition: background-color 0.3s ease-in-out;
+      border: 1px solid #28a745;
+      margin: 0 auto;
+      box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .checkout-button:hover {
+      background-color: #218838;
+    }
+
+    /* Personalização da barra de rolagem */
+    .cart-list::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .cart-list::-webkit-scrollbar-thumb {
+      background-color: #bdbdbd;
+      border-radius: 10px;
+    }
+
+    .cart-list::-webkit-scrollbar-thumb:hover {
+      background-color: #aaaaaa;
+    }
+
+    .cart-list::-webkit-scrollbar-track {
+      background-color: #f4f4f4;
+      border-radius: 10px;
+    }
+
+
+
+    @media screen and (max-width: 768px) {
+
+      .search-container {
+        gap: 10px;
+        width: 350px;
+        padding: 10px;
+      }
+
+      /* texto grande */
+      .titulo {
+        font-size: 50px;
+      }
+
+      .search-text {
+        width: 80%;
+        padding: 10px;
+        font-size: 18px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+
+      /* seletor de unidades */
+      .search-options {
+        width: 30%;
+        padding: 11.8px;
+        font-size: 14px;
+        margin-right: 10px;
+      }
+
+      /* campo para a quantidade de unidades */
+      .quantity-input {
+        width: 10%;
+        padding: 13px;
+        font-size: 14px;
+        margin-right: 10px;
+      }
+
+      /* botão de pesquisa */
+      .search-button {
+        padding: 13px 20px;
+        font-size: 16px;
+        margin-right: 10px;
+      }
+
+
+
+    }
+  </style>
+  <title>Seleção de Produtos</title>
+</head>
+
+<body>
+  <div class="fundo"></div>
+  <header>
+    <nav class="search-bar">
+      <label for="menu-checkbox" class="menu-icon">
+        <i class="fa-solid fa-bars fa-2xl"></i>
+      </label>
+      <input type="checkbox" id="menu-checkbox" class="menu-checkbox" />
+      <div class="options-menu">
+        <a href="usuario.php"><i class="fa-solid fa-user"></i> Perfil</a>
+        <a href="endereço.html"><i class="fa-sharp fa-solid fa-location-dot"></i></i> Endereços</a>
+        <a href="fornecedor.html"><i class="fa-solid fa-cart-flatbed-suitcase"></i>
+          Fornecedor</a>
+        <a href="solicita_produto.html"><i class="fa-solid fa-pen-to-square"></i> Cotação</a>
+        <a href="logout.php" class="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>
+          Logout</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="search-container">
+    <h2 class="titulo">Cotar Itens</h2>
+    <div class="search-group">
+      <input type="text" class="search-text" placeholder="Digite o nome do produto" />
+      <select class="search-options">
+        <option value="litros">Litros</option>
+        <option value="quilos">Quilos</option>
+        <option value="unidades">Unidades</option>
+        <option value="servico" data-text="Serviço">Serviço</option>
+      </select>
+      <input type="number" class="quantity-input" placeholder="Quantidade" min="1" value="1" />
+      <button class="search-button" id="search-button">Adicionar</button>
+    </div>
+  </div>
+
+  <div class="cart">
+    <div class="cart-icon" id="cart-icon">
+      <i class="fas fa-shopping-cart"></i>
+    </div>
+    <div class="cart-content" id="cart-content">
+      <ul class="cart-list" id="cart-list">
+        <!-- Itens do carrinho serão exibidos aqui -->
+      </ul>
+      <button class="checkout-button" id="checkout-button">Finalizar Pedido</button>
+    </div>
+  </div>
+
+  <script>
+
+    const searchButton = document.getElementById("search-button");
+
+
+    const searchText = document.querySelector(".search-text");
+
+    const searchOptions = document.querySelector(".search-options");
+
+  
+    const quantityInput = document.querySelector(".quantity-input");
+
+
+    const cartIcon = document.getElementById("cart-icon");
+
+    const cartContent = document.getElementById("cart-content");
+
+
+    const cartList = document.getElementById("cart-list");
+
+
+    const checkoutButton = document.getElementById("checkout-button");
+
+    
+    function getCartItemsMessage() {
+      const cartItems = cartList.querySelectorAll(".cart-item");
+      let message = "Itens do carrinho:\n";
+      cartItems.forEach((item, index) => {
+        const itemText = item.textContent.replace("Remover", "").trim(); 
+        message += `${index + 1}. ${itemText}\n`;
+      });
+      return message;
+    }
+
+    // Adicionar item ao carrinho
+    searchButton.addEventListener("click", () => {
+
+      const productName = searchText.value;
+      const unit = searchOptions.value;
+      const quantity = quantityInput.value;
+
+
+      if (productName.trim() !== "") {
+        // Criar um novo item do carrinho
+        const cartItem = document.createElement("li");
+        cartItem.className = "cart-item";
+
+ 
+        if (unit === "servico" || unit === "") {
+
+          cartItem.innerHTML = productName;
+        } else {
+        
+          cartItem.innerHTML = `${productName} ${quantity} ${unit}`;
+        }
+
+        // Adicionar um botão de remoção ao item do carrinho
+        const removeButton = document.createElement("button");
+        removeButton.className = "cart-remove-button";
+        removeButton.textContent = "Remover";
+
+        // Ao clicar no botão de remoção, remover o item do carrinho
+        removeButton.addEventListener("click", () => {
+          cartItem.remove();
+        });
+
+  
+        cartItem.appendChild(removeButton);
+
+     
+        cartList.appendChild(cartItem);
+
+    
+        searchText.value = "";
+        quantityInput.value = 1;
+
+
+        cartContent.style.display = "block";
+      }
+    });
+
+
+
+   
+    cartIcon.addEventListener("click", () => {
+      if (cartContent.style.display === "none" || cartContent.style.display === "") {
+        cartContent.style.display = "block";
+      } else {
+        cartContent.style.display = "none";
+      }
+    });
+
+  
+    checkoutButton.addEventListener("click", () => {
+      const message = getCartItemsMessage();
+      alert(message); 
+      cartList.innerHTML = ""; 
+      cartContent.style.display = "none"; 
+    });
+  </script>
+</body>
+
+</html>

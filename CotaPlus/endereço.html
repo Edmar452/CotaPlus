@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <style>
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .perfil {
+            width: 550px;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 0px 50px rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            padding: 20px 0px 20px;
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+            /* mantem acima do background*/
+        }
+
+
+        /* Estilos para o título secundário */
+        .titulo2 {
+            text-align: center;
+            font-size: 40px;
+            color: rgb(64, 187, 224);
+            font-weight: 600;
+            letter-spacing: -1px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-shadow: 0px 0px 20px rgba(33, 113, 171, 0.4);
+            transition: 0.3s;
+        }
+
+        .input {
+            width: 97%;
+            padding: 10px;
+            margin-bottom: 10px;
+            margin-top: 5px;
+            border-radius: 10px;
+            border: 1px solid rgba(105, 105, 105, 0.5);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #cep {
+            width: 59%;
+            margin-right: 10px;
+        }
+
+        #number {
+            margin-right: 10px;
+            width: 15%;
+        }
+
+        #complement {
+            margin-right: 10px;
+            width: 36.3%;
+        }
+
+        #state,
+        #city {
+            margin-top: 10px;
+            width: 95%;
+        }
+
+        .save-adress,
+        .search-adress {
+            background-color: turquoise;
+            color: #fff;
+            border: none;
+            padding: 13px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: inset -5px -5px 25px 3px #0c2397;
+            transition: 0.3s;
+            transform: 0.3s ease;
+            margin-right: -11px;
+            outline: none;
+        }
+
+        .save-adress,
+        .search-adress:hover {
+            background-color: rgb(52, 164, 216);
+            transition: 0.3s;
+        }
+
+        .addEndereço {
+            width: 410px;
+        }
+
+        /* Estilos para os botões de edição e exclusão de endereço */
+        .edit-address-button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 7px 10px;
+            cursor: pointer;
+            margin-right: 3px;
+            margin-top: 5px;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .delete-address-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 7px 13px;
+            cursor: pointer;
+            margin-top: 5px;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilos para a lista de endereços salvos */
+        .address-list {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        /* Estilos para o texto dos endereços na lista */
+        .address-list li {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            list-style: none;
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 1px solid #989898;
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: start;
+            flex-wrap: wrap;
+            /* Quebra a linha após o título */
+            flex-basis: 100%;
+            /* Ocupa toda a largura disponível na linha */
+            margin: 0px 60px 10px 30px;
+
+        }
+
+        /* Estilize o texto dos endereços */
+        .address-list li::before {
+            content: "Endereço: ";
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            flex-basis: 100%;
+            /* Ocupa toda a largura disponível na linha */
+        }
+
+
+        /* Estilos para o título "Endereços Salvos" */
+        #enderecos-salvos-title {
+            display: none;
+        }
+
+        
+    @media screen and (max-width: 768px) {
+        .perfil {
+            width: 350px;
+            padding: 20px 0px 20px;
+            font-size: 18px;
+            /* mantem acima do background*/
+        }
+        .input {
+            width: 68%;
+        }
+
+        .flex {
+            justify-content: center;
+        }
+
+        #cep {
+            width: 30%;
+            margin-right: 5px;
+            margin-left: -10px;
+        }
+
+        #number {
+            width: 12%;
+            margin-left: 52px;
+            margin-right: 3px;
+        }
+
+        #complement {
+            width: 20%;
+            margin-right: 3px;
+        }
+
+        #state {
+            width: 72%;
+            margin-right: -19px;
+        }
+        #city {
+            width: 71%;
+            margin-left: -17px;
+        }
+
+        .save-adress {
+            padding: 11px 5px;
+            margin-right: 55px;
+        }
+        .search-adress {
+            padding: 12px 22px;
+            margin-right: -10px;
+        }
+        /* Estilos para o texto dos endereços na lista */
+        .address-list li {
+           margin: 0px 40px 10px 0px;
+           font-size: 13px;
+        }
+
+    }
+    </style>
+        <link rel="stylesheet" href="styles.css">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <div class="fundo"></div>
+        <header>
+            <nav class="search-bar">
+                <label for="menu-checkbox" class="menu-icon">
+                    <i class="fa-solid fa-bars fa-2xl"></i>
+                </label>
+                <input type="checkbox" id="menu-checkbox" class="menu-checkbox" />
+                <div class="options-menu">
+                    <a href="usuario.php"><i class="fa-solid fa-user"></i> Perfil</a>
+                    <a href="endereço.html"><i
+                            class="fa-sharp fa-solid fa-location-dot"></i></i>
+                    Endereços</a>
+                <a href="fornecedor.html"><i
+                        class="fa-solid fa-cart-flatbed-suitcase"></i>
+                    Fornecedor</a>
+                <a href="solicita_produto.html"><i
+                        class="fa-solid fa-pen-to-square"></i> Cotação</a>
+                <a href="logout.php" class="logout"><i
+                        class="fa-solid fa-arrow-right-from-bracket"></i>
+                    Logout</a>
+            </div>
+        </nav>
+    </header>
+    <div class="perfil">
+        <!-- Adicionar novo endereço de entrega -->
+        <div class="addEndereço" >
+            <h2 class="titulo2">Adicionar Endereço</h2>
+            <label class="input-label" for="cep"></label>
+            <input class="input" type="text" class="input-field" id="cep"
+                placeholder="CEP" />
+            <button class="search-adress" id="search"
+                onclick="searchAddressByCep()">
+                Buscar Endereço
+            </button>
+            <br />
+            <!-- Campos de endereço preenchidos automaticamente -->
+            <div class="flex">
+                <label class="input-label">
+                    <input class="input" type="text" class="input-field"
+                        id="state" placeholder="Estado" />
+                </label>
+                <label class="input-label">
+                    <input class="input" type="text" class="input-field"
+                        id="city" placeholder="Cidade" />
+                    </label class="input-label">
+                </div>
+                <label class="input-label">
+                    <input class="input" type="text" class="input-field"
+                        id="neighborhood" placeholder="Bairro" />
+                    </label class="input-label">
+
+                    <label class="input-label">
+                        <input class="input" type="text" class="input-field"
+                            id="street" placeholder="Rua" />
+                        </label class="input-label">
+                        <label class="input-label">
+                            <input class="input" type="text" class="input-field"
+                                id="number" placeholder="Número" />
+                            </label class="input-label">
+
+                            <label class="input-label">
+                                <input class="input" type="text"
+                                    class="input-field" id="complement"
+                                    placeholder="Complemento" />
+                                </label class="input-label">
+                                <!-- Botão para salvar o endereço ou editar -->
+                                <button class="save-adress" id="save-adress"
+                                    onclick="saveOrEditAddress()">
+                                    Salvar Endereço
+                                </button>
+                            </div>
+
+                            <!-- Lista de endereços salvos -->
+                            <div class="address-list">
+                                <h2 class="titulo2" id="enderecos-salvos-title">Endereços
+                                    Salvos</h2>
+                                <ul id="address-ul">
+                                    <!-- Endereços salvos serão exibidos aqui -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <script>
+        function editName() {
+            const newName = prompt("Digite o novo nome:");
+            if (newName !== null) {
+                document.getElementById("username").textContent = newName;
+            }
+        }
+
+        function searchAddressByCep() {
+            const cep = document.getElementById("cep").value;
+            const url = `https://viacep.com.br/ws/${cep}/json/`;
+
+            fetch(url)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (!data.erro) {
+                        document.getElementById("state").value = data.uf;
+                        document.getElementById("city").value = data.localidade;
+                        document.getElementById("neighborhood").value = data.bairro;
+                        document.getElementById("street").value = data.logradouro;
+                        // Você pode preencher outros campos aqui, se necessário
+                    } else {
+                        alert("CEP não encontrado.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erro ao buscar CEP:", error);
+                    alert("Ocorreu um erro ao buscar o CEP.");
+                });
+        }
+
+        function saveOrEditAddress() {
+
+            const cep = document.getElementById("cep").value;
+            const state = document.getElementById("state").value;
+            const city = document.getElementById("city").value;
+            const neighborhood = document.getElementById("neighborhood").value;
+            const street = document.getElementById("street").value;
+            const number = document.getElementById("number").value;
+            const complement = document.getElementById("complement").value;
+
+     
+            if (cep.trim() === "" || state.trim() === "" || city.trim() === "" || neighborhood.trim() === "" || street.trim() === "" || number.trim() === "") {
+                alert("Por favor, preencha todos os campos obrigatórios.");
+                return;
+            }
+
+
+            const listItem = document.createElement("li");
+            listItem.textContent = `CEP: ${cep}, Estado: ${state}, Cidade: ${city}, Bairro: ${neighborhood}, Rua: ${street}, Número: ${number}, Complemento: ${complement}`;
+
+    
+            const editButton = document.createElement("button");
+            editButton.textContent = "Editar Endereço";
+            editButton.classList.add("edit-address-button");
+            editButton.onclick = function () {
+         
+                document.getElementById("cep").value = cep;
+                document.getElementById("state").value = state;
+                document.getElementById("city").value = city;
+                document.getElementById("neighborhood").value = neighborhood;
+                document.getElementById("street").value = street;
+                document.getElementById("number").value = number;
+                document.getElementById("complement").value = complement;
+
+                saveEditButton.textContent = "Salvar Edição";
+                saveEditButton.onclick = function () {
+  
+                    listItem.textContent = `CEP: ${document.getElementById("cep").value}, Estado: ${document.getElementById("state").value}, Cidade: ${document.getElementById("city").value}, Bairro: ${document.getElementById("neighborhood").value}, Rua: ${document.getElementById("street").value}, Número: ${document.getElementById("number").value}, Complemento: ${document.getElementById("complement").value}`;
+
+                    document.getElementById("cep").value = "";
+                    document.getElementById("state").value = "";
+                    document.getElementById("city").value = "";
+                    document.getElementById("neighborhood").value = "";
+                    document.getElementById("street").value = "";
+                    document.getElementById("number").value = "";
+                    document.getElementById("complement").value = "";
+
+       
+                    saveEditButton.textContent = "Salvar Endereço";
+                    saveEditButton.onclick = saveOrEditAddress;
+                };
+
+                listItem.removeChild(editButton);
+            };
+
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Excluir";
+            deleteButton.classList.add("delete-address-button"); 
+            deleteButton.onclick = function () {
+             
+                document.getElementById("address-ul").removeChild(listItem);
+            };
+
+    
+            listItem.appendChild(editButton);
+            listItem.appendChild(deleteButton);
+
+   
+            document.getElementById("address-ul").appendChild(listItem);
+
+
+            document.getElementById("cep").value = "";
+            document.getElementById("state").value = "";
+            document.getElementById("city").value = "";
+            document.getElementById("neighborhood").value = "";
+            document.getElementById("street").value = "";
+            document.getElementById("number").value = "";
+            document.getElementById("complement").value = "";
+
+            editButton.textContent = "Editar";
+
+            document.getElementById("complement").value = "";
+
+            const addressList = document.getElementById("address-ul");
+            const enderecosSalvosTitle = document.getElementById("enderecos-salvos-title");
+
+            if (addressList.children.length > 0) {
+   
+                enderecosSalvosTitle.style.display = "block";
+            } else {
+
+                enderecosSalvosTitle.style.display = "none";
+            }
+        }
+    </script>
+
+                    </body>
+
+                </html>
